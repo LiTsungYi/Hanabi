@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-TW">
+    <title>Hanabi - 花火</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css">
+
+    <!-- Custom styles for this template -->
+    <link href="style/Hanabi.css" rel="stylesheet">
+    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://netdna.bootstrapcdn.com/bootstrap/assets/js/html5shiv.js"></script>
+      <script src="http://netdna.bootstrapcdn.com/bootstrap/assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Hanabi 花火</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="http://boardgamegeek.com/boardgame/98778/hanabi" target="_blank">介紹</a></li>
+                <li><a href="http://gamesoncloud.blogspot.tw/2013/10/hanabi.html" target="_blank">規則</a></li>
+            </ul>
+            <div id="EnterGame" class="form-group navbar-right navbar-form">
+                <input type="text" id="nickname" placeholder="暱稱"></input>
+                <button id="EnterGameButton" class="btn btn-primary">進入遊戲</button>
+            </div>
+            <div id="ExitGame" class="form-group navbar-right navbar-form text-primary Hided">
+                歡迎您，<span id="nicknameSpan"></span>
+                <button id="ExitGameButton" class="btn btn-primary">離開遊戲</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+	<div id="wrap">
+		<div class="container">
+			<div id="RoomList" class="Hided">
+				<div class="panel panel-primary">
+					<div class="panel-heading RoomListHeading">
+						遊戲列表
+						<span class="pull-right">
+							<button id="RefreshRoomListButton" class="btn btn-default">Refresh</button>
+						</span>
+					</div>
+					<div class="panel-body">
+						<ul id="RoomListItems" class="list-group">
+						</ul>
+					</div>
+					<div id="RoomListReady" class="panel-footer text-center Hided">
+						<button id="PlayerReadyButton" type="button" class="btn btn-warning">Ready</button>
+					</div>
+				</div>
+				
+				<!-- Template -->
+				<li id="TemplateRoomItem" class="list-group-item Hided"></li>
+				<span id="TemplateRoomIndex" class="Hided"></span>
+				<span id="TemplateRoomItemPlayer" class="label Hided roomListPlayer"></span>
+				<span id="TemplateJoinRoom" class="pull-right Hided"><button type="button" class="btn btn-success">Join</button></span>
+				<span id="TemplateQuitRoom" class="pull-right Hided"><button type="button" class="btn btn-danger">Quit</button></span>
+			</div>
+			
+			<div id="GameBoard" class="Hided">
+				<div id="Message">
+					<div class="panel panel-primary">
+						<div class="panel-heading">遊戲紀錄</div>
+						<div class="panel-body ">
+							<ul class="list-group"></ul>
+						</div>
+					</div>
+					
+					<li id="TemplateMessageList" class="list-group-item Hided"></li>
+				</div>
+				
+				<div id="Players">
+					<h1>手牌區</h1>
+					
+					<!-- Template -->
+					<div id="TemplatePlayer" class="Player Hided">
+						<span class="label NicknameLabel"></span>
+						<div class="btn-group"></div>
+					</div>
+					
+					<button id="TemplateFaceUpCard" class="btn btn-primary disabled FaceUpCard Hided">
+						<span class="glyphicon"></span> <span></span>
+					</button>
+					
+					<div id="TemplateFaceDownCard" class="btn-group FaceDownCard Hided" data-toggle="tooltip" title="沒有提示">
+						<button type="button" class="btn btn-primary"></button>
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li class="PlayCardTag"><a href="#">出牌</a></li>
+							<li class="DiscardCardTag"><a href="#">棄牌</a></li>
+						</ul>
+					</div>
+						
+					<div id="TemplateHintButton" class="btn-group HintPlayer Hided">
+						<button type="button" class="btn btn-primary">提示</button>
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li class="HintValue1Tag"><a href="#">1</a></li>
+							<li class="HintValue2Tag"><a href="#">2</a></li>
+							<li class="HintValue3Tag"><a href="#">3</a></li>
+							<li class="HintValue4Tag"><a href="#">4</a></li>
+							<li class="HintValue5Tag"><a href="#">5</a></li>
+							<li class="divider"></li>
+							<li class="HintBlueTag"><a href="#"><span class="glyphicon glyphicon-asterisk"></span> 藍色</a></li>
+							<li class="HintGreenTag"><a href="#"><span class="glyphicon glyphicon-plus"></span> 綠色</a></li>
+							<li class="HintYellowTag"><a href="#"><span class="glyphicon glyphicon-stop"></span> 黃色</a></li>
+							<li class="HintRedTag"><a href="#"><span class="glyphicon glyphicon-heart"></span> 紅色</a></li>
+							<li class="HintWhiteTag"><a href="#"><span class="glyphicon glyphicon-remove"></span> 白色</a></li>
+						</ul>
+					</div>
+				</div>
+			
+				<div id="GameInfo">
+					<ul class="list-group">
+						<li class="list-group-item"><span id="RemainedHints" class="badge">0</span>提示</li>
+						<li class="list-group-item"><span id="RemainedErrors" class="badge">0</span>錯誤</li>
+					</ul>
+				</div>
+				
+				<div id="DrawPile">
+					<h1>抽牌區</h1>
+					<button id="DrawCard" class="btn btn-primary disabled">0</button>
+				</div>
+				
+				<div id="DiscardPile">
+					<h1>棄牌區</h1>
+					<div id="DiscardedCards10" class="btn-group CardList"></div>
+					<div id="DiscardedCards20" class="btn-group CardList"></div>
+					<div id="DiscardedCards30" class="btn-group CardList"></div>
+					<div id="DiscardedCards40" class="btn-group CardList"></div>
+					<div id="DiscardedCards50" class="btn-group CardList"></div>
+				</div>
+				
+				<div id="PlayedCards">
+					<h1>出牌區</h1>
+					<div id="PlayedCards10" class="btn-group CardList"></div>
+					<div id="PlayedCards20" class="btn-group CardList"></div>
+					<div id="PlayedCards30" class="btn-group CardList"></div>
+					<div id="PlayedCards40" class="btn-group CardList"></div>
+					<div id="PlayedCards50" class="btn-group CardList"></div>
+				</div>
+				
+				<div id="GameScoreModel" class="modal fade">
+				    <div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">遊戲結束</h4>
+							</div>
+							<div class="modal-body">
+								<p>您獲得的分數為 <span id="GameScore"></span> 分</p>
+							</div>
+							<div class="modal-footer">
+								<button id="CloseNotifyGame" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">測試時發現 BUG 請通知我 <a href="mailto:litsungyi@gmail.com">Caesar</a> 感謝</p>
+      </div>
+    </div>
+	
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
+     
+    <script type="text/javascript" src="scripts/Hanabi.js"></script>
+    <script type="text/javascript" src="scripts/HanabiRoom.js"></script>
+    <script type="text/javascript" src="scripts/HanabiGame.js"></script>
+</body>
+</html>
